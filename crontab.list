@@ -1,0 +1,128 @@
+# 更新所有脚本（包括自用own脚本）
+26 2,8,14,18,23 * * * sleep 38 && jup >> /jd/log/jup.log 2>&1
+
+# 删除旧日志
+57 13 * * * jlog &>/dev/null
+
+# 导出所有互助码清单，日志在log/jcode下
+48 5 * * * jcode &>/dev/null
+
+# 重启挂机程序
+# 33 13 * * * jtask hangup &>/dev/null
+0 9 * * * bash jd whyour_ddxw
+4 9 * * * bash jd whyour_jd_collectBlueCoin
+
+# mtask任务区域，既不属于own脚本，也不属于jd_scripts脚本的，请使用mtask命令。
+# 需自行将脚本放在scripts文件夹下，mtask命令运行的脚本可以以jd_、jr_、jx_开头，如
+# 8 5 * * * mtask jd_live.js &>/dev/null
+
+# otask任务区域，AutoAddOwnCron=true时，自动识别脚本中的cron信息，无法保证准确，建议收到通知后主动检查。
+# 在启动自用own脚本的cron任务时，程序会自动将文件复制到scripts文件夹下，然后再运行。
+# 自用own任务开始，请不要增加、删除或修改本行任何字符（包括空格及#），这是给自动化程序识别用的。
+0 0 * * * otask /jd/own/raw/monk_inter_shop_sign.js &>/dev/null
+0 0,1-22/2 1-31 4-7 * otask /jd/own/raw/monk_pasture.js &>/dev/null
+15 12 * * * otask /jd/own/raw/monk_shop_add_to_car.js &>/dev/null
+15 15 * * * otask /jd/own/raw/monk_shop_follow_sku.js &>/dev/null
+3 0,10,23 * * * otask /jd/own/raw/monk_shop_lottery.js &>/dev/null
+15 08 2-18 4 * otask /jd/own/raw/monk_skyworth.js &>/dev/null
+15 08 2-18 4 * otask /jd/own/raw/monk_skyworth_car.js &>/dev/null
+15 08 5-30 4 * otask /jd/own/raw/monk_vinda.js &>/dev/null
+2 0-18/6 1-20 4 * otask /jd/own/raw/z_carnivalcity.js &>/dev/null
+10 10,11 * * 2-5 otask /jd/own/raw/z_entertainment.js &>/dev/null
+3 10 * * * otask /jd/own/raw/z_fanslove.js &>/dev/null
+3 10 * * * otask /jd/own/raw/z_marketLottery.js &>/dev/null
+5 8,14,20 13-19 4 * otask /jd/own/raw/z_mother_jump.js &>/dev/null
+3 20 * * * otask /jd/own/raw/z_shake.js &>/dev/null
+5 1,6,11,16,21 * 3-4 * otask /jd/own/raw/z_super5g.js &>/dev/null
+10 10 7-9 4 * otask /jd/own/raw/z_xmf.js &>/dev/null
+15 12 * * * otask /jd/own/monkcoder_dust/monk_shop_add_to_car.js &>/dev/null
+15 08 2-18 4 * otask /jd/own/monkcoder_dust/monk_skyworth_car.js &>/dev/null
+2 0-18/6 1-20 4 * otask /jd/own/monkcoder_dust/z_carnivalcity.js &>/dev/null
+25 10-22/3 * * * otask /jd/own/monkcoder_dust/z_health_community.js &>/dev/null
+25 * * * * otask /jd/own/monkcoder_dust/z_health_energy.js &>/dev/null
+3 10 * * * otask /jd/own/monkcoder_dust/z_marketLottery.js &>/dev/null
+5 8,14,20 20-27 4 * otask /jd/own/monkcoder_dust/z_mother_jump.js &>/dev/null
+3 20 * * * otask /jd/own/monkcoder_dust/z_shake.js &>/dev/null
+5 1,6,11,16,21 * 3-4 * otask /jd/own/monkcoder_dust/z_super5g.js &>/dev/null
+0 0 * * * otask /jd/own/monkcoder_dust/monk_inter_shop_sign.js &>/dev/null
+15 15 * * * otask /jd/own/monkcoder_dust/monk_shop_follow_sku.js &>/dev/null
+3 0,10,23 * * * otask /jd/own/monkcoder_dust/monk_shop_lottery.js &>/dev/null
+15 08 2-18 4 * otask /jd/own/monkcoder_dust/monk_skyworth.js &>/dev/null
+0 0-23/1 * * * otask /jd/own/raw/jd_super_redrain.js conc &>/dev/null
+0 0-23/1 * * * otask /jd/own/raw/jd_super_redrain.js conc &>/dev/null
+0 0-23/1 * * * otask /jd/own/raw/jd_super_redrain.js conc &>/dev/null
+0 0-23/1 * * * otask /jd/own/raw/jd_super_redrain.js conc &>/dev/null
+0 0-23/1 * * * otask /jd/own/raw/jd_super_redrain.js conc &>/dev/null
+25 8 * 4-5 * otask /jd/own/raw/z_tcl_lining.js &>/dev/null
+30 0-23/1 * * * otask /jd/own/raw/jd_half_redrain.js conc &>/dev/null
+30 10 * * * otask /jd/own/raw/jd_try.js &>>&1
+# 自用own任务结束，请不要增加、删除或修改本行任何字符（包括空格及#），这是给自动化程序识别用的。
+
+# jtask任务区域，运行jd_scripts脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
+# 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
+# 非lxk0301/jd_scripts仓库中的脚本请使用mtask命令，不要使用jtask命令。请在最后保留一个空行。
+5 9 * * * jtask jd_bean_change &>/dev/null
+28 5 * * * jtask jd_bean_home &>/dev/null
+4 0,9 * * * jtask jd_bean_sign &>/dev/null
+0,30 0 * * * jtask jd_blueCoin &>/dev/null
+12 8,12,18 * * * jtask jd_bookshop &>/dev/null
+41 7 * * * jtask jd_car &>/dev/null
+13 8,22 * * * jtask jd_cash &>/dev/null
+0 0 * * * jtask jd_car_exchange &>/dev/null
+2 0 * * * jtask jd_club_lottery &>/dev/null
+43 13 * * * jtask jd_crazy_joy &>/dev/null
+54 2-23/3 * * * jtask jd_daily_egg &>/dev/null
+20 * * * * jtask jd_dreamFactory &>/dev/null
+29 7,12,18 * * * jtask jd_fruit &>/dev/null
+49 6 * * 6 jtask jd_get_share_code &>/dev/null
+36 * * * * jtask jd_jdfactory &>/dev/null
+14 0-2,11 * * * jtask jd_jdzz &>/dev/null
+6 0,8,9,13,18,22 * * * jtask jd_joy &>/dev/null
+*/20 0-22 * * * jtask jd_joy_feedPets &>/dev/null
+59 23,7,15 * * * sleep 59 ; jtask jd_joy_reward conc &>/dev/null
+59 7,15,23 * * * sleep 57 && jtask jd_joy_reward conc &>/dev/null
+59 7,15,23 * * * sleep 58 && jtask jd_joy_reward conc &>/dev/null
+59 7,15,23 * * * sleep 59 && jtask jd_joy_reward conc &>/dev/null
+0 0-16/8 * * * jtask jd_joy_reward &>/dev/null
+1 16 * * * jtask jd_joy_reward &>/dev/null
+18 10-20/2 * * * jtask jd_joy_run &>/dev/null
+0 9,12,18 * * * jtask jd_jxnc &>/dev/null
+32 7 * * * jtask jd_kd &>/dev/null
+13-33/5 13 * * * jtask jd_live &>/dev/null
+15 1 * * * jtask jd_lotteryMachine &>/dev/null
+40 */4 * * * jtask jd_moneyTree &>/dev/null
+20 0,20 * * * jtask jd_necklace &>/dev/null
+10 7,12,18 * * * jtask jd_pet &>/dev/null
+25 * * * * jtask jd_pigPet &>/dev/null
+35 7-22 * * * jtask jd_plantBean &>/dev/null
+11 0 * * * jtask jd_rankingList &>/dev/null
+1 1 * * * jtask jd_redPacket &>/dev/null
+0 0 * * * jtask jd_shop &>/dev/null
+16 0 * * * jtask jd_small_home &>/dev/null
+9 1-23/5 * * * jtask jd_superMarket &>/dev/null
+25 9,18 * * * jtask jd_syj &>/dev/null
+45 23 * * * jtask jd_unsubscribe &>/dev/null
+19 11 * * * jtask jx_sign &>/dev/null
+41 7,12,19 * * * jtask jd_beauty &>/dev/null
+5 */2 * * * jtask jd_cfd &>/dev/null
+10 12 * * * jtask jd_crazy_joy_bonus &>/dev/null
+#20 9 * * 6 jtask jd_delCoupon &>/dev/null
+10 6,7 * * * jtask jd_family &>/dev/null
+13 8,16,20 * * * jtask jd_jxd &>/dev/null
+#1,31 0-23/1 * * * jtask jd_live_redrain &>/dev/null
+10 0,1-23/4 * * * jtask jd_mohe &>/dev/null
+10 6 * * * jtask jd_ms &>/dev/null
+35 1,23 * * * jtask jd_nzmh &>/dev/null
+#41 0,23 * * * jtask jd_price &>/dev/null
+47 8 * * * jtask jd_sgmh &>/dev/null
+45 0,23 * * * jtask jd_speed_redpocke &>/dev/null
+21 1,6 * * * jtask jd_speed_sign &>/dev/null
+30 0-23/3 * * * jtask jd_health &>/dev/null
+5-45/20 * * * * jtask jd_health_collect &>/dev/null
+10 10,23 * * * jtask jd_market_lottery &>/dev/null
+#1 8-23 27 4 * jtask lxk0301_live_redrain.js now &>/dev/null
+0 0 * * * jtask jddj_plantBeans &>/dev/null
+*/5 * * * * jtask jddj_getPoints &>/dev/null
+10 0,8,11,17 * * * jtask jddj_fruit &>/dev/null
+*/5 * * * * jtask jddj_fruit_collectWater &>/dev/null
+0 0 * * * jtask jddj_bean &>/dev/null
