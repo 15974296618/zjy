@@ -1,8 +1,8 @@
 /*
 #抓用户CK，进入APP应该就能抓到
-;http://.+/api/v2/device/info url script-request-body dsjtx.js
+;http://.+/api/v2/device/info url script-request-body https://raw.githubusercontent.com/15974296618/zjy/main/dsjtx.js
 #抓请求地址使用，自动保存CK
-;.+cash/withdrawal.+ url script-request-header dsjtx.js
+;.+cash/withdrawal.+ url script-request-header https://raw.githubusercontent.com/15974296618/zjy/main/dsjtx.js
 #模拟抓请求地址，真实请求一次提现，需要手动保存，因为是模拟请求。
 ;.+cash/withdrawal.+ url reject-200
 */
