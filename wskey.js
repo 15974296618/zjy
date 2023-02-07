@@ -9,21 +9,21 @@ script-path: https://raw.githubusercontent.com/Charles-Hello/ql_tools/master/wsk
 
 ###### Surge ######
 [Script]
-http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/Charles-Hello/ql_tools/master/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
+http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
 
 [Mitm]
 hostname = %APPEND% api.m.jd.com
 
 ###### Loon ######
 [Script]
-http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/Charles-Hello/ql_tools/master/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
+http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
 
 [Mitm]
 hostname = api.m.jd.com
 
 ###### QuanX ######
 [rewrite_local]
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ url script-request-header https://raw.githubusercontent.com/Charles-Hello/ql_tools/master/wskey.js
+^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ url script-request-header https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js
 
 [Mitm]
 hostname = api.m.jd.com
