@@ -1,0 +1,98 @@
+{
+  "id": "zhao.sub",
+  "name": "自用脚本订阅",
+  "author": "@zjy",
+  "icon": "https://raw.githubusercontent.com/chiupam/surge/main/boxjs/chiupam.jpg",
+  "repo": "https://github.com/15974296618/zjy",
+  "apps": [
+    {
+		
+      "id": "wskey",
+      "name": "京东值",
+      "key": [],
+      "descs_html": [
+        "<h4 align=\"center\">打开京东, 点击右上角消息</a></h4>"
+      ],
+      "settings": [
+        {
+          "id": "jd_wskey",
+          "name": "抓取到 wskey 的具体值",
+          "val": "pin=xxxxxx;wskey=xxxxxx;",
+          "type": "textarea",
+          "desc": "复制它吧"
+        }
+      ],
+      "author": "@chiupam",
+      "repo": "https://github.com/15974296618/zjy",
+      "icons": [
+        "https://raw.githubusercontent.com/chiupam/surge/main/boxjs/icon/jd.jpeg",
+        "https://raw.githubusercontent.com/chiupam/surge/main/boxjs/icon/jd.jpeg"
+      ]
+    },
+    {
+      "id": "MySetting",
+      "name": "通用设置",
+      "key": [],
+      "descs_html": [
+        "<h4 align=\"center\">各个脚本的共同设置</a></h4>"
+      ],
+      "settings": [
+        {
+          "id": "TG_USER_ID",
+          "name": "TG USER ID",
+          "val": "",
+          "type": "text",
+          "desc": "Telegram 的用户 ID"
+        },
+        {
+          "id": "TG_BOT_TOKEN",
+          "name": "TG BOT TOKEN",
+          "val": "",
+          "type": "text",
+          "desc": "Telegram 的机器人 API"
+        },
+        {
+          "id": "BARK_PUSH",
+          "name": "BARK PUSH",
+          "val": "",
+          "type": "text",
+          "desc": "Bark 的用户 API"
+        },
+        {
+          "id": "PUSH_PLUS",
+          "name": "PUSH PLUS",
+          "val": "",
+          "type": "text",
+          "desc": "Pushplus 的用户 API"
+        },
+        {
+          "id": "serverless_api",
+          "name": "腾讯云接口",
+          "val": "",
+          "type": "text",
+          "desc": "腾讯云 API 接口地址"
+        },
+        {
+          "id": "vps_ip",
+          "name": "个人服务器接口地址加端口",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "vps_password",
+          "name": "个人服务器验证密码",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        }
+      ],
+      "author": "@chiupam",
+      "repo": "https://github.com/15974296618/zjy",
+      "icons": [
+        "https://raw.githubusercontent.com/chiupam/surge/main/boxjs/icon/setting.jpg",
+        "https://raw.githubusercontent.com/chiupam/surge/main/boxjs/icon/setting.jpg"
+      ]
+    }
+  ]
+}
