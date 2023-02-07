@@ -13,7 +13,7 @@
  * 
  * =============== Surge ===============
  *[Script]
- * 京东获取wskey = type=http-request, pattern=^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog, requires-body=1, max-size=-1, script-path=https://raw.githubusercontent.com/chiupam/surge/main/scripts/javascripts/wskey.js, script-update-interval=0, timeout=1
+ * 京东获取wskey = type=http-request, pattern=^https?://api-dd\.jd\.com/client\.action\?functionId=getSessionLog, requires-body=1, max-size=-1, script-path=https://raw.githubusercontent.com/15974296618/zjy/main/wskey.js, script-update-interval=0, timeout=1
  * 
  * =============== Loon ===============
  *[Script]
